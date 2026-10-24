@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "name": "CareLink — Care, connected",
+  "short_name": "CareLink",
+  "description": "Everyday care and family connections. Health and accessibility support.",
+  "lang": "en",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#faf7fb",
+  "theme_color": "#780d32",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

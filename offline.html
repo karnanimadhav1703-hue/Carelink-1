@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#780d32"><title>CareLink · Offline</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:28px 20px;background:#faf7fb;color:#2c1924;font:20px/1.6 system-ui,"Nirmala UI",sans-serif}main{max-width:580px;margin:8vh auto}h1{font-size:2rem;line-height:1.5}a{display:flex;align-items:center;justify-content:center;min-height:64px;padding:14px;margin:20px 0;border:2px solid #780d32;border-radius:12px;color:#780d32;font-weight:700;text-align:center}a:focus-visible,select:focus-visible{outline:4px solid #005fcc;outline-offset:4px}.emergency{background:#962c30;border-color:#962c30;color:white}.note{font-size:1rem}select{font:inherit;min-height:48px;max-width:100%;padding:8px;border:2px solid #780d32;border-radius:8px;background:white;color:#2c1924}label{display:block}
+</style></head><body><main><p><strong>CareLink</strong></p>
+<label for="offline-language">Language / भाषा</label><select id="offline-language"><option value="en" lang="en">English</option><option value="hi" lang="hi">हिन्दी</option></select>
+<h1 id="offline-title">You’re offline</h1><p id="offline-intro">Reconnect to use medicines, appointments, SOS alerts, and your family’s live view. This page cannot send an alert or confirm a dose.</p>
+<a id="offline-call" href="tel:112" class="emergency">Call 112 · Emergency</a><a id="offline-retry" href="/">Try CareLink again</a>
+<p id="offline-reminders">Reminders and countdowns need the app to stay open. An installed app does not provide background reminders.</p>
+<p class="note" id="offline-note">CareLink does not diagnose conditions or provide medical advice. Calling needs an available phone service.</p>
+<noscript><p lang="hi">आप ऑफ़लाइन हैं। इंटरनेट से दोबारा जुड़ें। यह पेज अलर्ट नहीं भेज सकता। आपात स्थिति में <a href="tel:112">112 पर कॉल करें</a>। CareLink निदान या चिकित्सा सलाह नहीं देता।</p></noscript>
+</main><script>
+// Only a public language preference is read. No health records are cached here.
+const translations = {
+  'offline-title': 'आप ऑफ़लाइन हैं',
+  'offline-intro': 'दवाइयाँ, अपॉइंटमेंट, SOS अलर्ट और परिवार की लाइव जानकारी के लिए इंटरनेट से जुड़ें। यह पेज अलर्ट नहीं भेज सकता और खुराक की पुष्टि नहीं कर सकता।',
+  'offline-call': '112 पर कॉल करें · आपात स्थिति',
+  'offline-retry': 'CareLink दोबारा खोलें',
+  'offline-reminders': 'रिमाइंडर और उलटी गिनती के लिए ऐप खुला रहना चाहिए। इंस्टॉल किया गया ऐप भी बंद होने पर रिमाइंडर नहीं देता।',
+  'offline-note': 'CareLink बीमारी का निदान या चिकित्सा सलाह नहीं देता। कॉल के लिए फ़ोन सेवा उपलब्ध होनी चाहिए।'
+};
+const originals = Object.fromEntries(Object.keys(translations).map(id => [id, document.getElementById(id).textContent]));
+const select = document.getElementById('offline-language');
+function changeLanguage(language) {
+  const selected = language === 'hi' ? 'hi' : 'en';
+  select.value = selected; document.documentElement.lang = selected;
+  document.title = selected === 'hi' ? 'CareLink · ऑफ़लाइन' : 'CareLink · Offline';
+  for (const id of Object.keys(translations)) document.getElementById(id).textContent = selected === 'hi' ? translations[id] : originals[id];
+  try { localStorage.setItem('carelink-language', selected); } catch { /* Session-only when storage is blocked. */ }
+}
+select.addEventListener('change', () => changeLanguage(select.value));
+try { changeLanguage(localStorage.getItem('carelink-language')); } catch { changeLanguage('en'); }
+</script></body></html>
